@@ -1,0 +1,53 @@
+#conteiner {
+    background-color: gray;
+    justify-content: center;
+    display: grid;
+}
+H2 {
+    color: whitesmoke;
+    width: 300px;
+}
+#ukup{
+    background-color:grey;
+    height:50px;
+    margin: 0;
+    font-size: 50px;
+    color: whitesmoke;
+    margin-bottom: 20px;
+}
+#prih {
+    background-color: greenyellow;
+    height: 50px;
+    margin: 0;
+    font-size: 27px;
+}
+#divZaPrih {
+    width : 50%
+}
+#rash {
+    background-color:red;
+    height: 50px;
+    margin: 0;
+    font-size: 27px;
+}
+div#selPrRs {
+    margin: auto;
+    display: table;
+}
+
+#divZaPrih H3{
+    color: green;
+}
+#bellowCon{
+background-color: whitesmoke;
+}
+
+#divZaRash{
+    width : 50%
+}
+#divZaRash H3{
+    color:red;
+}
+div#prih-rash {
+    display: -webkit-box;
+}
