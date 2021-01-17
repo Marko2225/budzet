@@ -67,6 +67,9 @@ function azurirajVrednosti(){
     pPrihod.textContent = ` prihod ${ukupanPrihod()}`
     pRashod.textContent =`rashod ${ukupanRashod()}`
     pUkupno.textContent = ukupanPrihod() - ukupanRashod()
+    const procenti = document.createElement('span')
+    procenti.innerHTML = Math.round( ukupanRashod() * 100 / ukupanPrihod()) + `&#37`
+    pRashod.append(procenti)
 }
 
 function dodajNaStranicu(limun){
