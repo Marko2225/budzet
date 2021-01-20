@@ -4,19 +4,23 @@ const cont = document.querySelector('#conteiner')
 //mk
 const divZaPrihode = document.querySelector('#divZaPrih')
 const divZaRashode = document.querySelector('#divZaRash')
-const data = []
+const data = [
+    //     desc: 'dgd',
+    //     vrednost: 1,
+    //     tip: '-'
+]
 
 const pUkupno = document.createElement('p')
-pUkupno.textContent =  0
+pUkupno.textContent = 0
 pUkupno.id = 'ukup'
 
 const pPrihod = document.createElement('p')
 pPrihod.textContent = 0
-pPrihod.id= 'prih'
+pPrihod.id = 'prih'
 
 const pRashod = document.createElement('p')
 pRashod.textContent = 0
-pRashod.id='rash'
+pRashod.id = 'rash'
 //mk
 const divSel = document.querySelector('#selPrRs')
 
@@ -43,64 +47,117 @@ const inputValue = document.createElement('input')
 inputValue.type = 'number'
 
 const btnSubmit = document.createElement('button')
-btnSubmit.innerHTML= ' &#10004'
+btnSubmit.innerHTML = ' &#10004'
 
-function ukupanPrihod(){
+function ukupanPrihod() {
     let zbir = 0
     data.forEach(nesto => {
-        if(nesto.tip === '+') zbir += nesto.vrednost
+        if (nesto.tip === '+') zbir += nesto.vrednost
     })
 
     return zbir
 }
 
-function ukupanRashod(){
+function ukupanRashod() {
     let zbir = 0
     data.forEach(x => {
-        if(x.tip === '-') zbir += x.vrednost
+        if (x.tip === '-') zbir += x.vrednost
     })
 
     return zbir
 }
 
-function azurirajVrednosti(){
-    pPrihod.textContent = ` prihod ${ukupanPrihod()}`
-    pRashod.textContent =`rashod ${ukupanRashod()}`
-    pUkupno.textContent = ukupanPrihod() - ukupanRashod()
-    const procenti = document.createElement('span')
-    procenti.innerHTML = Math.round( ukupanRashod() * 100 / ukupanPrihod()) + `&#37`
-    pRashod.append(procenti)
-}
+let ukupno = ukupanPrihod() - ukupanRashod()
+console.log(ukupno)
 
-function dodajNaStranicu(limun){
+function azurirajVrednosti() {
+    pPrihod.textContent = ` prihod ${ukupanPrihod()}`
+    pPrihod.textContent = ` prihod ${ukupanPrihod()}`
+    pRashod.textContent = `rashod ${ukupanRashod()} `
+    pUkupno.textContent = ukupanPrihod() - ukupanRashod()
+
+    const procenti = document.createElement('span')
+    procenti.innerHTML = Math.round(ukupanRashod() * 100 / ukupanPrihod()) + `&#37`
+    pRashod.append(procenti)
+
+    //// ovde bi trebalo da se menjaju procenti u divu za rashod
+
+    data.forEach(item => {
+
+
+      let   procenat2 = document.querySelector('.procRasSpan')
+        
+        procenat2.innerHTML = Math.round(item.vrednost * 100 / ukupanPrihod()) + `&#37`
+      //= procenat2.innerHTML
+         
+        console.log(procenat2)
+        console.log(Math.round(item.vrednost * 100 / ukupanPrihod()))
+        console.log(item)
+
+    })
+
+}
+   // potencijalna f=ja za mejanje procentata
+   
+// function menjajProcente (objecat){
+//     data.forEach(obj => {
+         
+// objecat = obj
+//         let   procenat2 = document.querySelector('.procRasSpan')
+          
+//           procenat2.innerHTML = Math.round(objecat.vrednost * 100 / ukupanPrihod()) + `&#37`
+//         //= procenat2.innerHTML
+      
+//           console.log(procenat2)
+//           console.log(Math.round(obj.vrednost * 100 / ukupanPrihod()))
+//           console.log(objecat)
+         
+//       })
+// }
+
+
+function dodajNaStranicu(limun) {
     const div = document.createElement('div')
     const p = document.createElement('p')
-    p.textContent = `${limun.desc}     ${limun.vrednost}`
-    p.id= 'item'
+
+    p.textContent = `${limun.desc}  ---   ${limun.vrednost}`
+
 
     const btnDelete = document.createElement('button')
-    btnDelete.textContent= 'x'
+    btnDelete.textContent = 'x'
 
-    div.append(p,btnDelete)
+    div.append(p, btnDelete)
 
-    btnDelete.addEventListener('click',() => {
+    btnDelete.addEventListener('click', () => {
         div.remove()
         let index = data.indexOf(limun)
-        data.splice(index,1)
+        data.splice(index, 1)
 
         azurirajVrednosti()
     })
 
-    if(limun.tip === '+') divZaPrihode.append(div)
+    if (limun.tip === '+') divZaPrihode.append(div)
+
     else {
-        const procenat = document.createElement('p')
-        procenat.textContent = limun.vrednost * 100 / ukupanPrihod()
+
+        var procenat = document.createElement('span')
+        procenat.className = 'procRasSpan'
+
+        // procenat.id = 'procRasSpan'  `&#37`
+
+
+      p.innerHTML = `${limun.desc}  --   ${limun.vrednost} `
+
+        procenat.innerHTML = Math.round(limun.vrednost * 100 / ukupanPrihod()) 
+        
+        // `${procenat}`
+        p.append(procenat)
         divZaRashode.append(div)
+
     }
-    
 }
 
-btnSubmit.addEventListener('click',(e) => {
+btnSubmit.addEventListener('click', (e) => {
     e.preventDefault()
 
     let obj = {
@@ -111,10 +168,13 @@ btnSubmit.addEventListener('click',(e) => {
 
     data.push(obj)
     dodajNaStranicu(obj)
+
     azurirajVrednosti()
+    
+   // menjajProcente (obj)
     console.log(data)
 })
 //opt
-select.append(opt1,opt2)
-divSel.append(select,inputDesc,inputValue,btnSubmit)
-cont.append(pUkupno,pPrihod,pRashod)
+select.append(opt1, opt2)
+divSel.append(select, inputDesc, inputValue, btnSubmit)
+cont.append(pUkupno, pPrihod, pRashod)
