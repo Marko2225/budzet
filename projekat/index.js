@@ -42,12 +42,12 @@ opt2.textContent = 'rashod'
 
 const inputDesc = document.createElement('input')
 inputDesc.type = 'text'
-
+inputDesc.placeholder = 'opis'
 const inputValue = document.createElement('input')
 inputValue.type = 'number'
 
 const btnSubmit = document.createElement('button')
-btnSubmit.innerHTML = ' &#10004'
+btnSubmit.innerHTML = 'izracunaj &#10004' 
 
 function ukupanPrihod() {
     let zbir = 0
