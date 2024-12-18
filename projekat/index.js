@@ -1,180 +1,130 @@
-console.log('pocetak')
-//mk
-const cont = document.querySelector('#conteiner')
-//mk
-const divZaPrihode = document.querySelector('#divZaPrih')
-const divZaRashode = document.querySelector('#divZaRash')
-const data = [
-    //     desc: 'dgd',
-    //     vrednost: 1,
-    //     tip: '-'
-]
+console.log('pocetak');
 
-const pUkupno = document.createElement('p')
-pUkupno.textContent = 0
-pUkupno.id = 'ukup'
+const cont = document.querySelector('#conteiner');
+const divZaPrihode = document.querySelector('#divZaPrih');
+const divZaRashode = document.querySelector('#divZaRash');
+const divSel = document.querySelector('#selPrRs');
 
-const pPrihod = document.createElement('p')
-pPrihod.textContent = 0
-pPrihod.id = 'prih'
+const data = [];
 
-const pRashod = document.createElement('p')
-pRashod.textContent = 0
-pRashod.id = 'rash'
-//mk
-const divSel = document.querySelector('#selPrRs')
+const pUkupno = document.createElement('p');
+pUkupno.textContent = 0;
+pUkupno.id = 'ukup';
 
-const select = document.createElement('select')
+const pPrihod = document.createElement('p');
+pPrihod.textContent = 0;
+pPrihod.id = 'prih';
 
-//const opt = document.createElement('option')
-//opt.value = `'-1' selected disabled`
+const pRashod = document.createElement('p');
+pRashod.textContent = 0;
+pRashod.id = 'rash';
 
-const opt1 = document.createElement('option')
-opt1.value = '+'
-//mk
-opt1.textContent = 'prihod'
-const opt2 = document.createElement('option')
-opt2.value = '-'
-//mk
-opt2.textContent = 'rashod'
+const select = document.createElement('select');
 
-//mk
+const opt1 = document.createElement('option');
+opt1.value = '+';
+opt1.textContent = 'prihod';
 
-const inputDesc = document.createElement('input')
-inputDesc.type = 'text'
-inputDesc.placeholder = 'opis'
-const inputValue = document.createElement('input')
-inputValue.type = 'number'
+const opt2 = document.createElement('option');
+opt2.value = '-';
+opt2.textContent = 'rashod';
 
-const btnSubmit = document.createElement('button')
-btnSubmit.innerHTML = 'izracunaj &#10004' 
+const inputDesc = document.createElement('input');
+inputDesc.type = 'text';
+inputDesc.placeholder = 'opis';
 
+const inputValue = document.createElement('input');
+inputValue.type = 'number';
+
+const btnSubmit = document.createElement('button');
+btnSubmit.innerHTML = 'izracunaj ✔'; 
+
+// Funkcija za računanje ukupnog prihoda
 function ukupanPrihod() {
-    let zbir = 0
-    data.forEach(nesto => {
-        if (nesto.tip === '+') zbir += nesto.vrednost
-    })
-
-    return zbir
+    return data.reduce((zbir, nesto) => {
+        return nesto.tip === '+' ? zbir + nesto.vrednost : zbir;
+    }, 0);
 }
 
+// Funkcija za računanje ukupnog rashoda
 function ukupanRashod() {
-    let zbir = 0
-    data.forEach(x => {
-        if (x.tip === '-') zbir += x.vrednost
-    })
-
-    return zbir
+    return data.reduce((zbir, x) => {
+        return x.tip === '-' ? zbir + x.vrednost : zbir;
+    }, 0);
 }
 
-let ukupno = ukupanPrihod() - ukupanRashod()
-console.log(ukupno)
-
+// Funkcija za ažuriranje prikazanih vrednosti
 function azurirajVrednosti() {
-    pPrihod.textContent = ` prihod ${ukupanPrihod()}`
-    pPrihod.textContent = ` prihod ${ukupanPrihod()}`
-    pRashod.textContent = `rashod ${ukupanRashod()} `
-    pUkupno.textContent = ukupanPrihod() - ukupanRashod()
+    const prihod = ukupanPrihod();
+    const rashod = ukupanRashod();
 
-    const procenti = document.createElement('span')
-    procenti.innerHTML = Math.round(ukupanRashod() * 100 / ukupanPrihod()) + `&#37`
-    pRashod.append(procenti)
+    pPrihod.textContent = `prihod: ${prihod}`;
+    pRashod.textContent = `rashod: ${rashod}`;
+    pUkupno.textContent = `ukupno: ${prihod - rashod}`;
 
-    //// ovde bi trebalo da se menjaju procenti u divu za rashod
-
-    data.forEach(item => {
-
-
-      let   procenat2 = document.querySelector('.procRasSpan')
-        
-        procenat2.innerHTML = Math.round(item.vrednost * 100 / ukupanPrihod()) + `&#37`
-      //= procenat2.innerHTML
-         
-        console.log(procenat2)
-        console.log(Math.round(item.vrednost * 100 / ukupanPrihod()))
-        console.log(item)
-
-    })
-
+    // Ažuriranje procenata
+    const procenatRashoda = document.createElement('span');
+    procenatRashoda.innerHTML = rashod > 0 ? Math.round(rashod * 100 / prihod) + `%` : '0%';
+    pRashod.append(procenatRashoda);
 }
-   // potencijalna f=ja za mejanje procentata
-   
-// function menjajProcente (objecat){
-//     data.forEach(obj => {
-         
-// objecat = obj
-//         let   procenat2 = document.querySelector('.procRasSpan')
-          
-//           procenat2.innerHTML = Math.round(objecat.vrednost * 100 / ukupanPrihod()) + `&#37`
-//         //= procenat2.innerHTML
-      
-//           console.log(procenat2)
-//           console.log(Math.round(obj.vrednost * 100 / ukupanPrihod()))
-//           console.log(objecat)
-         
-//       })
-// }
 
-
+// Funkcija za dodavanje transakcije na stranicu
 function dodajNaStranicu(limun) {
-    const div = document.createElement('div')
-    const p = document.createElement('p')
-
-    p.textContent = `${limun.desc}  ---   ${limun.vrednost}`
-
-
-    const btnDelete = document.createElement('button')
-    btnDelete.textContent = 'x'
-
-    div.append(p, btnDelete)
+    const div = document.createElement('div');
+    const p = document.createElement('p');
+    p.textContent = `${limun.desc} --- ${limun.vrednost}`;
+    
+    const btnDelete = document.createElement('button');
+    btnDelete.textContent = 'x';
 
     btnDelete.addEventListener('click', () => {
-        div.remove()
-        let index = data.indexOf(limun)
-        data.splice(index, 1)
+        div.remove();
+        const index = data.indexOf(limun);
+        if (index > -1) {
+            data.splice(index, 1);
+        }
+        azurirajVrednosti();
+    });
 
-        azurirajVrednosti()
-    })
-
-    if (limun.tip === '+') divZaPrihode.append(div)
-
-    else {
-
-        var procenat = document.createElement('span')
-        procenat.className = 'procRasSpan'
-
-        // procenat.id = 'procRasSpan'  `&#37`
-
-
-      p.innerHTML = `${limun.desc}  --   ${limun.vrednost} `
-
-        procenat.innerHTML = Math.round(limun.vrednost * 100 / ukupanPrihod()) 
-        
-        // `${procenat}`
-        p.append(procenat)
-        divZaRashode.append(div)
-
+    if (limun.tip === '+') {
+        divZaPrihode.append(div);
+    } else {
+        const procenat = document.createElement('span');
+        procenat.className = 'procRasSpan';
+        procenat.innerHTML = `${Math.round(limun.vrednost * 100 / ukupanPrihod())}%`;
+        p.append(procenat);
+        divZaRashode.append(div);
     }
+
+    div.append(p, btnDelete);
 }
 
+// Event listener za dodavanje transakcije
 btnSubmit.addEventListener('click', (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    // Validacija unosa
+    if (inputDesc.value.trim() === "" || isNaN(inputValue.value) || Number(inputValue.value) <= 0) {
+        alert("Molimo unesite validan opis i pozitivnu vrednost.");
+        return;
+    }
 
     let obj = {
         desc: inputDesc.value,
         vrednost: Number(inputValue.value),
         tip: select.value
-    }
+    };
 
-    data.push(obj)
-    dodajNaStranicu(obj)
+    data.push(obj);
+    dodajNaStranicu(obj);
+    azurirajVrednosti();
 
-    azurirajVrednosti()
-    
-   // menjajProcente (obj)
-    console.log(data)
-})
-//opt
-select.append(opt1, opt2)
-divSel.append(select, inputDesc, inputValue, btnSubmit)
-cont.append(pUkupno, pPrihod, pRashod)
+    // Resetovanje polja unosa
+    inputDesc.value = '';
+    inputValue.value = '';
+});
+
+// Dodavanje opcija u select i dodavanje elemenata u DOM
+select.append(opt1, opt2);
+divSel.append(select, inputDesc, inputValue, btnSubmit);
+cont.append(pUkupno, pPrihod, pRashod);
